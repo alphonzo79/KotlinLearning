@@ -6,10 +6,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import org.jetbrains.anko.async
 import org.jetbrains.anko.find
-import org.jetbrains.anko.longToast
 import org.jetbrains.anko.uiThread
 import rowley.kotlinlearning.R
-import rowley.kotlinlearning.data.ForecastRequest
+import rowley.kotlinlearning.domain.commands.RequestForecastCommand
 import rowley.kotlinlearning.ui.adapters.ForecastListAdapter
 
 class MainActivity : AppCompatActivity() {
@@ -29,11 +28,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val forecastList: RecyclerView = find(R.id.recycler)
         forecastList.layoutManager = LinearLayoutManager(this)
-        forecastList.adapter = ForecastListAdapter(items)
 
         async() {
-            ForecastRequest("83687").execute()
-            uiThread { longToast("Done with you stuff, homes") }
+            val result = RequestForecastCommand("83687").execute()
+            uiThread {
+                forecastList.adapter = ForecastListAdapter(result)
+            }
         }
     }
 }
