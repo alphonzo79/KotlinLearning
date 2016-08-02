@@ -1,7 +1,7 @@
 package rowley.kotlinlearning.domain.commands
 
-import rowley.kotlinlearning.data.ForecastRequest
-import rowley.kotlinlearning.data.ServerForecastMapper
+import rowley.kotlinlearning.data.server.ForecastRequest
+import rowley.kotlinlearning.data.server.ServerForecastMapper
 import rowley.kotlinlearning.domain.model.ForecastList
 
 class RequestForecastCommand(private val zipCode: String) : Command<ForecastList> {

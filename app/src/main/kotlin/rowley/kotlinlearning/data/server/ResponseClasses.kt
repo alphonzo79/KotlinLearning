@@ -1,4 +1,4 @@
-package rowley.kotlinlearning.data
+package rowley.kotlinlearning.data.server
 
 data class ForecastResult(val city: City, val list: List<Forecast>)
 
