@@ -10,6 +10,8 @@ import rowley.kotlinlearning.R
 import rowley.kotlinlearning.domain.model.Forecast
 import rowley.kotlinlearning.domain.model.ForecastList
 import rowley.kotlinlearning.extensions.ctx
+import java.text.DateFormat
+import java.util.*
 
 class ForecastListAdapter(val weekForecast: ForecastList, val itemClick: (Forecast) -> Unit):
         RecyclerView.Adapter<ForecastListAdapter.ViewHolder>() {
@@ -29,12 +31,17 @@ class ForecastListAdapter(val weekForecast: ForecastList, val itemClick: (Foreca
         fun bindForecast(forecast: Forecast) {
             with(forecast) {
                 Picasso.with(itemView.ctx).load(iconUrl).into(itemView.iconView)
-                itemView.dateView.text = date
+                itemView.dateView.text = convertDate(date)
                 itemView.descriptionView.text = description
                 itemView.maxTemperatureView.text = "${high.toString()}"
                 itemView.minTemperatureView.text = "${low.toString()}"
                 itemView.setOnClickListener { itemClick(this) }
             }
+        }
+
+        private fun convertDate(date: Long): String {
+            val df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault())
+            return df.format(date)
         }
     }
 }
