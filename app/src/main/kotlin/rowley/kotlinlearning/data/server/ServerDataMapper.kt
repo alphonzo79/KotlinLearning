@@ -3,9 +3,9 @@ package rowley.kotlinlearning.data.server
 import rowley.kotlinlearning.domain.model.ForecastList
 import rowley.kotlinlearning.domain.model.Forecast as ModelForecast
 
-class ServerForecastMapper {
+class ServerDataMapper {
 
-    fun convertFromDataModel(zipCode: Long, forecast: ForecastResult) = with(forecast) {
+    fun convertToDomain(zipCode: Long, forecast: ForecastResult) = with(forecast) {
         ForecastList(zipCode, forecast.city.name, forecast.city.country, convertForecastListToDomain(forecast.list))
     }
 

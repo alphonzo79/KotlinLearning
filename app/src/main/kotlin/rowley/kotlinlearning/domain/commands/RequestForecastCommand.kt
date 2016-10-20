@@ -1,12 +1,16 @@
 package rowley.kotlinlearning.domain.commands
 
-import rowley.kotlinlearning.data.server.ForecastRequest
-import rowley.kotlinlearning.data.server.ServerForecastMapper
+import rowley.kotlinlearning.domain.datasource.ForecastProvider
 import rowley.kotlinlearning.domain.model.ForecastList
 
-class RequestForecastCommand(private val zipCode: Long) : Command<ForecastList> {
+class RequestForecastCommand(val zipCode: Long,
+                             val forecastProvider: ForecastProvider = ForecastProvider()) : Command<ForecastList> {
+
+    companion object {
+        val DAYS = 5
+    }
+
     override fun execute(): ForecastList {
-        val forecastRequest = ForecastRequest(zipCode)
-        return ServerForecastMapper().convertFromDataModel(zipCode, forecastRequest.execute())
+        return forecastProvider.requestByZipCode(zipCode, DAYS)
     }
 }

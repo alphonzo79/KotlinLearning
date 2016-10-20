@@ -2,6 +2,7 @@ package rowley.kotlinlearning.data.sqlite
 
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
+import rowley.kotlinlearning.domain.datasource.ForecastDataSource
 import rowley.kotlinlearning.domain.model.ForecastList
 import rowley.kotlinlearning.extensions.clear
 import rowley.kotlinlearning.extensions.parseList
@@ -10,9 +11,9 @@ import rowley.kotlinlearning.extensions.toVarargArray
 import java.util.*
 
 class ForecastDb(val forecastDbHelper: ForecastDbHelper = ForecastDbHelper.instance,
-                 val dbDataMapper: DbDataMapper = DbDataMapper()) {
+                 val dbDataMapper: DbDataMapper = DbDataMapper()) : ForecastDataSource {
 
-    fun requestForecastByZipCode(zipCode: Long, date: Long) = forecastDbHelper.use {
+    override fun requestForecastByZipCode(zipCode: Long, date: Long) = forecastDbHelper.use {
         val dailyRequest = "${DayForecastTable.COLUMN_CITY_ID} = ? AND ${DayForecastTable.COLUMN_DATE} >= ?"
         val dailyForecast = select(DayForecastTable.TABLE_NAME)
                 .whereSimple(dailyRequest, zipCode.toString(), date.toString())
