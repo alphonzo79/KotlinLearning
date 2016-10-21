@@ -3,11 +3,9 @@ package rowley.kotlinlearning.data.sqlite
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 import rowley.kotlinlearning.domain.datasource.ForecastDataSource
+import rowley.kotlinlearning.domain.model.Forecast
 import rowley.kotlinlearning.domain.model.ForecastList
-import rowley.kotlinlearning.extensions.clear
-import rowley.kotlinlearning.extensions.parseList
-import rowley.kotlinlearning.extensions.parseOpt
-import rowley.kotlinlearning.extensions.toVarargArray
+import rowley.kotlinlearning.extensions.*
 import java.util.*
 
 class ForecastDb(val forecastDbHelper: ForecastDbHelper = ForecastDbHelper.instance,
@@ -24,6 +22,12 @@ class ForecastDb(val forecastDbHelper: ForecastDbHelper = ForecastDbHelper.insta
                 .parseOpt { CityForecast(HashMap(it), dailyForecast) }
 
         if (city != null) dbDataMapper.convertToDomain(city) else null
+    }
+
+    override fun requestDayForecast(id: Long): Forecast? = forecastDbHelper.use {
+        val forecast = select(DayForecastTable.TABLE_NAME).byId(id).parseOpt { DayForecast(HashMap(it)) }
+
+        if (forecast != null) dbDataMapper.convertDayToDomain(forecast) else null
     }
 
     fun saveForecast(forecast: ForecastList) = forecastDbHelper.use {

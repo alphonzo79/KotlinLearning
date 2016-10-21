@@ -14,8 +14,8 @@ class ServerDataMapper {
     }
 
     private fun convertForecastItemToDomain(forecast: Forecast) = with(forecast) {
-        rowley.kotlinlearning.domain.model.Forecast(forecast.dt * 1000, forecast.weather[0].description,
-                forecast.temp.max.toInt(), forecast.temp.min.toInt(), generateIconUrl(forecast.weather[0].icon))
+        rowley.kotlinlearning.domain.model.Forecast(-1, dt * 1000, weather[0].description,
+                temp.max.toInt(), temp.min.toInt(), generateIconUrl(weather[0].icon))
     }
 
     private fun generateIconUrl(iconCode: String): String = "http://openweathermap.org/img/w/$iconCode.png"
