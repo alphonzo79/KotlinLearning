@@ -11,11 +11,13 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 import rowley.kotlinlearning.R
 import rowley.kotlinlearning.domain.commands.RequestForecastCommand
+import rowley.kotlinlearning.extensions.DelegatesExt
 import rowley.kotlinlearning.ui.adapters.ForecastListAdapter
 
 class MainActivity : AppCompatActivity(), ToolbarManager {
 
     override val toolbar by lazy { find<Toolbar>(R.id.toolbar) }
+    val zipCode by DelegatesExt.preference(this, SettingsActivity.PREF_KEY_ZIP_CODE, SettingsActivity.DEFAULT_ZIP)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +34,7 @@ class MainActivity : AppCompatActivity(), ToolbarManager {
     }
 
     private fun loadForecast() = async() {
-        val result = RequestForecastCommand(83687).execute()
+        val result = RequestForecastCommand(zipCode).execute()
         uiThread {
             forecastList.adapter = ForecastListAdapter(result) {
                 startActivity<DetailActivity>(DetailActivity.ID to it.id, DetailActivity.CITY_NAME to result.city)

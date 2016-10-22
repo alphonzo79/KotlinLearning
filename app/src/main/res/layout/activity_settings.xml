@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/activity_settings"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="rowley.kotlinlearning.ui.activities.SettingsActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <EditText
+            android:id="@+id/zipCodeInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/zip_code"
+            android:inputType="number" />
+
+    </android.support.design.widget.TextInputLayout>
+
+</FrameLayout>
